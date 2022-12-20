@@ -2,7 +2,6 @@ from fastapi import FastAPI
 
 from app.db import database, User
 
-
 app = FastAPI(title="FastAPI, Docker, and Traefik")
 
 
