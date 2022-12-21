@@ -3,39 +3,25 @@ version: '3.8'
 services:
   web:
     build: .
-    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --reload'
+    command: bash -c 'while !</dev/tcp/db/27017; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --reload'
     volumes:
       - .:/app
     ports:
       - 8008:8000
     environment:
-      - DATABASE_URL=postgresql://fastapi_traefik:fastapi_traefik@db:5432/fastapi_traefik
+      - DATABASE_URL=mongodb://root:rootpassword@db:27017
+      - DB_NAME=test
     depends_on:
       - db
   db:
-    image: postgres:13-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
     expose:
-      - 5432
-    environment:
-      - POSTGRES_USER=fastapi_traefik
-      - POSTGRES_PASSWORD=fastapi_traefik
-      - POSTGRES_DB=fastapi_traefik
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      - 27017
     volumes:
-      - pgadmin:/var/lib/pgadmin
-
-    ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - mongodb_data_container:/data/db
 
 volumes:
-  postgres_data:
-  pgadmin:
+  mongodb_data_container:

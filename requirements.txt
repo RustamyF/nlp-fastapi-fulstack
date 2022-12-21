@@ -1,5 +1,3 @@
-fastapi
-uvicorn
-ormar
-asyncpg
-psycopg2-binary
+fastapi==0.86.0
+uvicorn==0.20.0
+pymongo
