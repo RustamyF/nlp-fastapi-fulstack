@@ -5,3 +5,10 @@
 
 # NLP App server using FastAPI
 
+
+
+
+## references
+1. https://github.com/mongodb-developer/mongodb-with-fastapi
+1. https://github.com/mongodb-developer/pymongo-fastapi-crud
+1. https://testdriven.io/blog/fastapi-docker-traefik/
