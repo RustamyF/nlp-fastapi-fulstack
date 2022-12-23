@@ -1,13 +1,23 @@
 from fastapi import FastAPI
-
-# from dotenv import dotenv_values
 from pymongo import MongoClient
 from app.routes import router as book_router
-
-# config = dotenv_values(".env")
 from app.config import settings
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
@@ -27,4 +37,4 @@ def list_books():
     return {"result": "hello world"}
 
 
-app.include_router(book_router, tags=["books"], prefix="/book")
+app.include_router(book_router, tags=["response"], prefix="/response")

@@ -6,6 +6,7 @@ services:
     command: bash -c 'while !</dev/tcp/db/27017; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --reload'
     volumes:
       - .:/app
+    container_name: fastapi-app
     ports:
       - 8008:8000
     environment:
@@ -15,6 +16,7 @@ services:
       - db
   db:
     image: mongo:latest
+    container_name: mongo-database
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
@@ -22,6 +24,18 @@ services:
       - 27017
     volumes:
       - mongodb_data_container:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpassword
+      - ME_CONFIG_MONGODB_URL=mongodb://root:rootpassword@db:27017
+    links:
+      - db
 
 volumes:
   mongodb_data_container:
