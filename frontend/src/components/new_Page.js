@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Front() {
+function NewPage() {
 
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
@@ -31,7 +31,7 @@ function Front() {
   <div>
       <h1 className="card text-white bg-primary mb-1" styleName="max-width: 20rem;">NLP Question and Answering</h1>
      <div className="card-body">
-      <h5 className="card text-white bg-dark mb-3">Add Your Context and Question</h5>
+      <h5 className="card text-white bg-dark mb-3">list the last question and answers</h5>
       <span className="card-text">
         <textarea onChange={event => setTitle(event.target.value)} style={{"height":"400px", "width":"900px"}} placeholder='Context'/>
         <input className="mb-3 form-control desIn" onChange={event => setDesc(event.target.value)} style={{"height":"100px"}} placeholder='Question'/>
@@ -48,4 +48,4 @@ function Front() {
   );
 }
 
-export default Front;
+export default NewPage;
