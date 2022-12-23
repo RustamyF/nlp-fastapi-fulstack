@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
 from app.routes import router as book_router
-from app.config import settings
+
+# from app.config import settings
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -18,12 +19,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+db_url = "mongodb://root:rootpassword@localhost:27017"
+db_name = "test"
 
 
 @app.on_event("startup")
 def startup_db_client():
-    app.mongodb_client = MongoClient(settings.db_url)
-    app.database = app.mongodb_client[settings.db_name]
+    app.mongodb_client = MongoClient(db_url)
+    app.database = app.mongodb_client[db_name]
 
 
 @app.on_event("shutdown")
@@ -32,7 +35,7 @@ def shutdown_db_client():
 
 
 @app.get("/health")
-def list_books():
+def health_check():
 
     return {"result": "hello world"}
 
