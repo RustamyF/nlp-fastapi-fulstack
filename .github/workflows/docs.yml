@@ -1,6 +1,6 @@
 name: Docs
 # Controls when the workflow will run
-#on: [push ]
+on: [push ]
 
 jobs:
   build:
